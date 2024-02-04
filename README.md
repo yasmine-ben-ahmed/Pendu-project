@@ -1,6 +1,6 @@
 compile with: make -B
 
-execute with: ./Main
+execute with: ./main
 
 mini project Algorithmic: Hangman Game with Binary Tree of Research
 
