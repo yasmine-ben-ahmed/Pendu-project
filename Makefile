@@ -10,7 +10,7 @@ HDRS :=
 SRCS := Main.c
 
 # Name of the executable
-EXEC := Main
+EXEC := main
 
 # Default recipe
 all: $(EXEC)

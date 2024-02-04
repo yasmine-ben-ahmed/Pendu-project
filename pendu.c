@@ -173,9 +173,15 @@ int jeuxDePendu(TArbre trie) {
     printf("\t______________________________________________________________\n\n");
    
     while (carLu != '1') {
-    printf(" \t \t!! If you are ready, type 1 to start !! \n");
+    printf(" \t \t!! If you are ready, type 1 to start !! (or press 0 to quit)\n");
 
     carLu = lireCaractere();
+    
+            if (carLu == -1) {
+            // User entered '0', exit the game
+            printf("\t \t !!!! Hangman game is over...!!!!\n");
+            exit(0);
+        }
     
     } 
     
@@ -209,6 +215,10 @@ int jeuxDePendu(TArbre trie) {
         case '3':
             nb_fautes = 8 ;
             break ;
+        default:
+		printf("Invalid choice! (Hangman game is over...)\n");
+		exit(0);
+		break;            
     }
     
     printf("\n \t \tNumber of maximum errors : %d \n", nb_fautes);
@@ -232,7 +242,7 @@ while (strncmp(motActuel, motCache, taille) != 0 && nb_fautes > 0) {
         
           if (carLu == -1) {
             // User entered '0', exit the game
-            printf("\t \t !!!! Goodbye !!!!\n");
+            printf("\t \t !!!! Hangman game is over...!!!!\n");
             exit(0);
         }
         }
@@ -241,7 +251,7 @@ while (strncmp(motActuel, motCache, taille) != 0 && nb_fautes > 0) {
 
         if (carLu == -1) {
             // User entered '0', exit the game
-            printf("\t \t !!!! Goodbye !!!!\n");
+            printf("\t \t !!!! Hangman game is over...!!!!\n");
             exit(0);
         }
 
