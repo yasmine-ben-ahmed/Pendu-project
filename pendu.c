@@ -3,8 +3,8 @@
 #include <string.h>
 #include <ctype.h>
 
-char MotSecret[TAILLE_MAX];
-char motActuel[TAILLE_MAX];
+
+char motActuel[20];
 TArbre trie;
 
 // Function to read a character from the user

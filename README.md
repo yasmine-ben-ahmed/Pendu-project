@@ -1,4 +1,5 @@
 compile with: make -B
+make -B is a way to forcefully rebuild all targets
 
 execute with: ./main
 

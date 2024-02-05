@@ -13,9 +13,8 @@
 #include "interface.h"
 #include <gtk/gtk.h>
 
-const char *MotS;
-// Declare the game_interface function
-int game_interface(GtkWidget *window, const char *MotS);
+//extern const char *MotSecret;
+const char *MotSecret;
 
 int main() {
 
@@ -48,30 +47,15 @@ int main() {
     
     //gestionDuDico(&arbre);
     
-    MotS = genererMotSecret(&arbre);
+    MotSecret = genererMotSecret(&arbre);
      // Afficher le mot secret
-     printf("\n \t \t ((Secret word: %s))\n", MotS);
+     printf("\n \t \t ((Secret word: %s))\n", MotSecret);
     
     //jeuxDePendu(arbre);
     
-    /********************************************************************************/
-    // Initialize GTK
-    gtk_init(NULL, NULL);
 
-    // Create a GTK window
-    GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(window), "Hangman Game");
-    g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
-    
-    // Call the game_interface function with the window pointer
-    game_interface(window,MotS);
+    game_interface(MotSecret);
 
-    // Show the window
-    gtk_widget_show_all(window);
-
-    // Run the GTK main loop
-    gtk_main();
-    /**********************************************************************************/ 
        	    
     arbreSuppr(&arbre);
     
