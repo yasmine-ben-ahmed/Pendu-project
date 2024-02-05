@@ -93,8 +93,8 @@ void on_submit_clicked(GtkWidget *button, gpointer data) {
 
     // Update the label with the current state of motActuel
     gtk_label_set_text(GTK_LABEL(label_mot_actuel), motActuel);
-    
-        // Check if the player has guessed the entire word
+
+    // Check if the player has guessed the entire word
     if (strcmp(motActuel, uppercaseMotSecret) == 0) {
         // Display congratulatory message
         GtkWidget *dialog = gtk_message_dialog_new(NULL,
@@ -159,8 +159,7 @@ void on_difficulty_selected(GtkWidget *button, gpointer data) {
 
     // Create a label for displaying the difficulty level
     GtkWidget *labeld = gtk_label_new(diff);
-    gtk_widget_set_h
-    align(labeld, GTK_ALIGN_CENTER);
+    gtk_widget_set_halign(labeld, GTK_ALIGN_CENTER);
     gtk_box_pack_start(GTK_BOX(vbox), labeld, FALSE, FALSE, 0);
     
         // Create label_mot_actuel only once during initialization
