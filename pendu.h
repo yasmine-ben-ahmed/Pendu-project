@@ -3,5 +3,6 @@
 #define TAILLE_MAX 255   
 char lireCaractere();
 void lireLigne(char* mot);
-char* genererMotSecret(TArbre *Mdico);
+void genererMotSecret(TArbre *Mdico);
+int jeuxDePendu(TArbre trie);      
 #endif

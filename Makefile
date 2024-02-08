@@ -1,8 +1,4 @@
-# Use pkg-config to get GTK flags and libraries
-GTK_FLAGS := $(shell pkg-config --cflags --libs gtk+-3.0)
-
-# Use pkg-config to get GStreamer flags and libraries
-GST_FLAGS := $(shell pkg-config --cflags --libs gstreamer-1.0)
+# A simple Makefile for compiling small SDL projects
 
 # Set the compiler
 CC := gcc
@@ -18,11 +14,10 @@ EXEC := main
 
 # Default recipe
 all: $(EXEC)
-
+ 
 # Recipe for building the final executable
 $(EXEC): $(SRCS) $(HDRS) Makefile
-	@echo "Compiling $(EXEC) successfully..."
-	@$(CC) -o $@ $(SRCS) $(GTK_FLAGS) $(GST_FLAGS) >/dev/null 2>&1
+	$(CC) -o $@ $(SRCS)
 
 # Recipe to clean the workspace
 clean:
