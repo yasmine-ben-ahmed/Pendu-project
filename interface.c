@@ -1,5 +1,7 @@
 #include <gtk/gtk.h>
 #include <glib.h>
+#include <gst/gst.h>
+
 #include "interface.h"
 
 // Define MotSecret globally
@@ -19,6 +21,9 @@ GtkWidget *label_result;
 
 // Declare global variable for image widget
 GtkWidget *image_widget;
+
+// Declare global variable for music player
+GstElement *music_player = NULL;
 
 // Function to handle key press event
 void on_key_press(GtkWidget *button, gpointer data) {
@@ -58,6 +63,11 @@ void on_start_clicked(GtkWidget *widget, gpointer data) {
     gtk_box_pack_start(GTK_BOX(box_main), button_hard, FALSE, FALSE, 0);
 
     gtk_widget_show_all(box_main);
+
+    // Start playing music when difficulty selection starts
+    if (music_player != NULL) {
+        gst_element_set_state(music_player, GST_STATE_PLAYING);
+    }
 }
 
 // Function to handle submit button click event
@@ -135,6 +145,11 @@ void on_submit_clicked(GtkWidget *button, gpointer data) {
                                                     "You failed! The word was not guessed.");
         gtk_dialog_run(GTK_DIALOG(dialog));
         gtk_widget_destroy(dialog);
+        
+        // Stop music playback if maximum mistakes reached
+        if (music_player != NULL) {
+            gst_element_set_state(music_player, GST_STATE_NULL);
+        }
     }
 
     // Clear the text buffer
@@ -228,6 +243,7 @@ int game_interface(const char *Mot) {
     GtkWidget *box_main;
 
     gtk_init(NULL, NULL);
+    gst_init(NULL, NULL); // Initialize GStreamer
 
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), "Hangman Game");
@@ -277,10 +293,20 @@ int game_interface(const char *Mot) {
     // Assign Mot to MotSecret
     MotSecret = g_strdup(Mot);
 
+    // Load audio file
+    music_player = gst_element_factory_make("playbin", "music-player");
+    g_object_set(music_player, "uri", "file:///home/molka/Téléchargements/wondrous-waters-119518.mp3", NULL); // Remplacez "/path/to/your/audio/file.mp3" par le chemin réel de votre fichier audio
+    gst_element_set_state(music_player, GST_STATE_NULL);
+
     gtk_main();
 
     // Free MotSecret after game interface exits
     g_free((gpointer) MotSecret);
+
+    // Free music player resources
+    if (music_player != NULL) {
+        gst_object_unref(music_player);
+    }
 
     return 0;
 }
