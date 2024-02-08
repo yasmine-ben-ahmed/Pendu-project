@@ -193,7 +193,7 @@ int jeuxDePendu(TArbre trie) {
     taille = strlen(motCache) ;
     //printf("\n \t \t ((Size: %d ))\n", taille);
 
-    char motActuel[TAILLE_MAX];
+    
     for (i = 0; i < taille; i++) {
         motActuel[i] = '-';
     }
