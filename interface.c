@@ -109,9 +109,9 @@ void on_submit_clicked(GtkWidget *button, gpointer data) {
             current_mistakes++; // Increment mistakes count
             gchar image_path[100];
             if (current_mistakes >= max_mistakes) {
-                sprintf(image_path, "/home/molka/Pendu-project/version_1/hang/9.png");
+                sprintf(image_path, "hang/9.png");
             } else {
-                sprintf(image_path, "/home/molka/Pendu-project/version_1/hang/%d.png", current_mistakes + 1);
+                sprintf(image_path, "hang/%d.png", current_mistakes + 1);
             }
             gtk_image_set_from_file(GTK_IMAGE(image_widget), image_path); // Update image path
             gtk_label_set_text(GTK_LABEL(label_result), "The character you guess does not match any in the secret word ☹️");
@@ -200,7 +200,7 @@ void on_difficulty_selected(GtkWidget *button, gpointer data) {
     gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
     // Load image from file
-    const gchar *image_filename = "/home/molka/Pendu-project/version_1/hang/1.png"; // Modifier le chemin vers votre image
+    const gchar *image_filename = "hang/1.png"; // Chemin relatif vers votre image
     image_widget = gtk_image_new_from_file(image_filename);
     gtk_box_pack_start(GTK_BOX(vbox), image_widget, FALSE, FALSE, 0);
 
@@ -295,7 +295,8 @@ int game_interface(const char *Mot) {
 
     // Load audio file
     music_player = gst_element_factory_make("playbin", "music-player");
-    g_object_set(music_player, "uri", "file:///home/molka/Téléchargements/wondrous-waters-119518.mp3", NULL); // Remplacez "/path/to/your/audio/file.mp3" par le chemin réel de votre fichier audio
+  g_object_set(music_player, "uri", "file://./hang/music_aucours_dejeu.mp3", NULL);
+// Remplacez "/path/to/your/audio/file.mp3" par le chemin réel de votre fichier audio
     gst_element_set_state(music_player, GST_STATE_NULL);
 
     gtk_main();
@@ -310,4 +311,5 @@ int game_interface(const char *Mot) {
 
     return 0;
 }
+
 

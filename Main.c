@@ -12,6 +12,8 @@
 #include "interface.c"
 #include "interface.h"
 #include <gtk/gtk.h>
+#include <gtk/gtkcssprovider.h>
+#include <unistd.h>
 
 //extern const char *MotSecret;
 const char *MotSecret;
