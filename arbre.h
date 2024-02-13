@@ -8,7 +8,7 @@ struct Noeud
     char caractere;             // Character stored in the node
     struct Noeud *filsDroit;    // Pointer to the right child node
     struct Noeud *filsGauche;   // Pointer to the left child node
-    int nbrOccurrence;          // Number of occurrences of the character
+   int nbrOccurrence;          // Number of occurrences of the character
 };
 
 // Definition of the pointer type for the tree node

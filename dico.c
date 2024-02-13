@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-FILE *dico; // Déclaration d'une variable globale pour stocker le pointeur vers le fichier du dictionnaire
+FILE *dico; // Global variable declaration to store the pointer to the dictionary file
 char buffer[20];
 
 // Function to open the dictionary file
@@ -13,6 +13,80 @@ int ouvrirDictionnaire(const char *filename) {
     return 1; // Returns 1 if the file opening succeeded
 }
 
+// Function to open the dictionary file in write mode
+int ouvrirDictionnaireEcriture(const char *filename) {
+    dico = fopen(filename, "a"); // Opens the file in append mode ("a")
+    if (dico == NULL) {
+        printf("\nImpossible d'ouvrir le dictionnaire de mots en écriture");
+        return 0; // Returns 0 if the file opening failed
+    }
+    return 1; // Returns 1 if the file opening succeeded
+}
+
+
+
+// Function to search for a word in the dictionary file
+int chercherMotDico(const char *word, const char *filename) {
+    FILE *dico = fopen(filename, "r");
+    if (dico == NULL) {
+        printf("Error: dictionary file not open\n");
+        return 0;
+    }
+
+    // Iterate through the words in the dictionary file
+    while (fscanf(dico, "%s", buffer) == 1) {
+        if (strcmp(buffer, word) == 0) { // Check if the word matches
+            fclose(dico);
+            return 1; // Word found
+        }
+    }
+
+    fclose(dico);
+    return 0; // Word not found
+}
+
+
+// Function to remove a word from the dictionary file
+int supprimerMotDico(const char *word, const char *filename) {
+    // Check if the word exists in the dictionary
+    if (!chercherMotDico(word, filename)) {
+        printf("\n =====> Your word '%s' does not exist in the dictionary.\n", word);
+        return 0; // Word not found, no need to proceed further
+    }
+
+    // Open the dictionary file for reading
+    FILE *dico = fopen(filename, "r");
+    if (dico == NULL) {
+        printf("Error: dictionary file not open\n");
+        return 0;
+    }
+
+    // Create a temporary file to write the updated dictionary
+    FILE *temp = fopen("temp.txt", "w");
+    if (temp == NULL) {
+        printf("Error: unable to create temporary file\n");
+        fclose(dico);
+        return 0;
+    }
+    
+    // Iterate through the words in the dictionary file
+    while (fscanf(dico, "%s", buffer) == 1) {
+        if (strcmp(buffer, word) != 0) { // Check if the word doesn't match
+            fprintf(temp, "%s\n", buffer); // Write the word to the temporary file
+        }
+    }
+
+    fclose(dico);
+    fclose(temp);
+
+    // Remove the original dictionary file
+    remove(filename);
+
+    // Rename the temporary file to the original dictionary file
+    rename("temp.txt", filename);
+
+    return 1; // Word found and deleted successfully
+}
 
 // Function to generate a random number between 0 and nombreMax (inclusive)
 int nombreAleatoire(int nombreMax) {
@@ -53,7 +127,6 @@ int piocherMot(char *motPioche) {
     fclose(dico);
     return 1;
 }
-
 
 // Function to display all words from the dictionary
 void afficherMotsDictionnaire() {
@@ -107,6 +180,7 @@ void afficherMotsDictionnaire() {
     free(mots);
 }
 
+
 // Function to insert a word into the dictionary tree
 void insererMot(char *mot, TArbre *noeud) {
     if (*noeud != NULL) {
@@ -155,5 +229,90 @@ void dicoInsererMot(char *mot, TArbre *arbre) {
             *arbre = arbreConsVide();
 
         insererMot(mot, arbre);
+    }
+}
+
+
+
+// Function to manage the dictionary
+void gestionDuDico(TArbre *arbre) {
+    char word[100]; // Assuming the word will not exceed 100 characters
+    int choice;
+
+    printf("_________________________________________________\n\n");
+    printf("Do you want to manage the dictionary? \n Type 1 for yes or 0 to continue to the game\n");
+    scanf(" %d", &choice);
+
+    if (choice == 1) {
+        printf("**************Dictionary management**************\n\n");
+        printf("Type 1 to add a word to the dictionary\n");
+        printf("Type 2 to search for a word in the dictionary\n");
+        printf("Type 3 to delete a word from the dictionary\n");
+        scanf(" %d", &choice);
+
+        switch (choice) {
+            case 1:
+                // Ask the user to enter a word
+                printf("\nEnter a word you want to add to the dictionary: ");
+
+                // Read the input word from the user
+                scanf(" %s", word);
+
+                // Call the function to insert the word into the dictionary tree
+                dicoInsererMot(word, arbre);
+
+                // Open the dictionary file in append mode to add the word
+                if (!chercherMotDico(word, "Dictionnaire.txt")) {
+                    FILE *dico = fopen("Dictionnaire.txt", "a");
+                    if (dico == NULL) {
+                        printf("Error: dictionary file not open\n");
+                    } else {
+                        // Write the word to the dictionary file
+                        fprintf(dico, "%s\n", word);
+                        fclose(dico); // Close the file after writing
+                    }
+
+                    printf("=====> Your word '%s' was successfully added to the dictionary !!!\n", word);
+                } else {
+                    printf("\n=====> Your word '%s' already exists in the dictionary !!!\n", word);
+                }
+                break;
+
+            case 2:
+                // Ask the user to enter a word
+                printf("\nEnter a word you want to search in the dictionary: ");
+
+                // Read the input word from the user
+                scanf(" %s", word);
+
+                // Add the logic to search for a word in the dictionary
+                if (!chercherMotDico(word, "Dictionnaire.txt")) {
+                    printf("\n=====> Your word '%s' does not exist in the dictionary !!!\n", word);
+                } else {
+                    printf("\n=====> Your word '%s' exists in the dictionary !!!\n", word);
+                }
+                break;
+
+            case 3:
+                // Add the logic to delete a word from the dictionary
+                // Ask the user to enter a word
+                printf("\nEnter a word you want to delete from the dictionary: ");
+
+                // Read the input word from the user
+                scanf(" %s", word);
+
+                if (supprimerMotDico(word, "Dictionnaire.txt")) {
+                    printf("\n=====> Your word '%s' was successfully deleted from the dictionary.\n", word);
+                }
+                break;
+
+            default:
+                printf("Invalid choice! (Hangman game soon...)\n");
+                break;
+        }
+    } else if (choice == 0) {
+        printf("Continuing to the game Hangman...\n");
+    } else {
+        printf("Invalid choice! (Hangman game soon...)\n");
     }
 }

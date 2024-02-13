@@ -3,20 +3,15 @@
 #include <stdbool.h>
 #include <string.h>
 #include <time.h>
-#include "arbre.h"
-#include "arbre.c"
-#include "dico.h"
-#include "dico.c"
-#include "pendu.c"
-#include "pendu.h"
-#include "interface.c"
-#include "interface.h"
-#include <gtk/gtk.h>
-
-const char *MotSecret;
-
+#include "arbre.h"  // Header file for the tree structure
+#include "arbre.c"  // Source file for the tree functions
+#include "dico.h"   // Header file for the dictionary operations
+#include "dico.c"   // Source file for the dictionary functions
+#include "pendu.c"  // Source file for the hangman game logic
+#include "pendu.h"  // Header file for the hangman game functions
 
 int main() {
+
     TArbre arbre; // Declare a tree variable
     arbre = arbreConsVide(); // Initialize the tree as empty
 
@@ -43,16 +38,15 @@ int main() {
     fclose(fichierMots); // Close the file
 
     afficherArbre(arbre); // Display the tree containing the dictionary words
-    
-    MotSecret = genererMotSecret(&arbre);
-     // Afficher le mot secret
-     printf("\n \t \t ((Secret word: %s))\n", MotSecret);
-    
-    game_interface(MotSecret);
 
-       	    
+    gestionDuDico(&arbre); // Manage the dictionary (add, delete, search words)
+
+    genererMotSecret(&arbre); // Generate a secret word for the hangman game
+
+    jeuxDePendu(arbre); // Play the hangman game
+
     arbreSuppr(&arbre); // Free memory allocated for the tree nodes
 
     return 0; // Return success code
-       
 }
+

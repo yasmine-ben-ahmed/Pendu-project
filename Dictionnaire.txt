@@ -98,3 +98,5 @@ onion
 ginger
 garlic
 potato
+kilo
+E
