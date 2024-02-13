@@ -20,7 +20,7 @@ int nombreAleatoire(int nombreMax) {
 }
 
 // Function to randomly select a word from the dictionary file
-int piocherMot(char *motPioche) {
+int selectword(char *motPioche) {
     ouvrirDictionnaire("Dictionnaire.txt");
     if (dico == NULL) {
         printf("Error: dictionary file not open\n");

@@ -49,7 +49,7 @@ char* genererMotSecret(TArbre *Mdico) {
     *Mdico = arbreConsVide();
 
     // Pick a single random word
-    if (piocherMot(MotSecret) == 1) {
+    if (selectword(MotSecret) == 1) {
         printf("_________________________________________________\n\n");
         // Afficher le mot secret
        // printf("\n \t \t ((Secret word: %s))\n", MotSecret);

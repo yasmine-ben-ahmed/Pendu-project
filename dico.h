@@ -14,7 +14,7 @@ typedef struct {
 int ouvrirDictionnaire(const char *filename);
 
 // Picks a random word from the dictionary file
-int piocherMot(char *motPioche);
+int selectword(char *motPioche);
 
 // Generates a random number within a specified range
 int nombreAleatoire(int nombreMax);
