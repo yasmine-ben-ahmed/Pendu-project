@@ -26,5 +26,4 @@ letter in the word. Otherwise, the program draws part of the hangman.
 
 *************************************************************************************************
 
-NB: hangman game in terminal with 
-dico management 
+NB: hangman game with interfaces using GTK
